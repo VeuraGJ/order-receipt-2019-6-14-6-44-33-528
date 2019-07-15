@@ -1,5 +1,7 @@
 package org.katas.refactoring;
 
+import java.util.List;
+
 /**
  * OrderReceipt prints the details of order including customer name, address, description, quantity,
  * price and amount. It also calculates the sales tax @ 10% and prints as part
@@ -17,34 +19,35 @@ public class OrderReceipt {
         StringBuilder output = new StringBuilder();
         printHeader(output, "======Printing Orders======\n");
         printCustomerInformation(output);
-
         // prints lineItems
-        double totalSalesTax = 0d;
-        double totalAmount = 0d;
         for (LineItem lineItem : o.getLineItems()) {
             printItem(output, lineItem);
-
-            // calculate sales tax @ rate of 10%
-            double taxRate = .10;
-            double salesTax = lineItem.totalAmount() * taxRate;
-            totalSalesTax += salesTax;
-
-            // calculate total amount of lineItem = price * quantity + 10 % sales tax
-            totalAmount += lineItem.totalAmount() + salesTax;
         }
+        double totalSalesTax = calculateLineItemsSalesTaxRateOf10precent(o.getLineItems());
+        double totalAmount = calculateLineItemsTotalAmount(o.getLineItems());
         printSaleTax(output, totalSalesTax, "Sales Tax");
-
-        // print total amount
         printTotalAmount(output, totalAmount, "Total Amount");
         return output.toString();
     }
-
+    private double calculateLineItemsSalesTaxRateOf10precent(List<LineItem> lineItems){
+        double taxRate = .10;
+        return lineItems.stream()
+                .mapToDouble(LineItem::totalAmount)
+                .map(item -> item * taxRate)
+                .sum();
+    }
+    private double calculateLineItemsTotalAmount(List<LineItem> lineItems){
+        double taxRate = .10;
+        return lineItems.stream()
+                .mapToDouble(LineItem::totalAmount)
+                .map(item -> item * taxRate + item)
+                .sum();
+    }
     private void printTotalAmount(StringBuilder output, double totalAmount, String s) {
         output.append(s).append('\t').append(totalAmount);
     }
 
     private void printSaleTax(StringBuilder output, double totalSalesTax, String s) {
-        // prints the state tax
         output.append(s).append('\t').append(totalSalesTax);
     }
 
@@ -60,15 +63,11 @@ public class OrderReceipt {
     }
 
     private void printCustomerInformation(StringBuilder output) {
-        // print date, bill no, customer name
-//        output.append("Date - " + order.getDate();
         output.append(o.getCustomerName());
         output.append(o.getCustomerAddress());
-//        output.append(order.getCustomerLoyaltyNumber());
     }
 
     private void printHeader(StringBuilder output, String s) {
-        // print headers
         output.append(s);
     }
 }
