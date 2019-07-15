@@ -32,13 +32,16 @@ public class OrderReceipt {
             // calculate total amount of lineItem = price * quantity + 10 % sales tax
             totalAmount += lineItem.totalAmount() + salesTax;
         }
-
-        // prints the state tax
-        output.append("Sales Tax").append('\t').append(totalSalesTax);
+        printSaleTax(output, totalSalesTax, "Sales Tax");
 
         // print total amount
         output.append("Total Amount").append('\t').append(totalAmount);
         return output.toString();
+    }
+
+    private void printSaleTax(StringBuilder output, double totalSalesTax, String s) {
+        // prints the state tax
+        output.append(s).append('\t').append(totalSalesTax);
     }
 
     private void printItem(StringBuilder output, LineItem lineItem) {
