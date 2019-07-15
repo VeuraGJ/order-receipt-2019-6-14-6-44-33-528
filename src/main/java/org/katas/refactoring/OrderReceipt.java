@@ -19,10 +19,7 @@ public class OrderReceipt {
         StringBuilder output = new StringBuilder();
         printHeader(output, "======Printing Orders======\n");
         printCustomerInformation(output);
-        // prints lineItems
-        for (LineItem lineItem : o.getLineItems()) {
-            printItem(output, lineItem);
-        }
+        printItems(output, o.getLineItems());
         double totalSalesTax = calculateLineItemsSalesTaxRateOf10precent(o.getLineItems());
         double totalAmount = calculateLineItemsTotalAmount(o.getLineItems());
         printSaleTax(output, totalSalesTax, "Sales Tax");
@@ -51,15 +48,17 @@ public class OrderReceipt {
         output.append(s).append('\t').append(totalSalesTax);
     }
 
-    private void printItem(StringBuilder output, LineItem lineItem) {
-        output.append(lineItem.getDescription());
-        output.append('\t');
-        output.append(lineItem.getPrice());
-        output.append('\t');
-        output.append(lineItem.getQuantity());
-        output.append('\t');
-        output.append(lineItem.totalAmount());
-        output.append('\n');
+    private void printItems(StringBuilder output, List<LineItem> lineItems) {
+        lineItems.stream().forEach(lineItem -> {
+            output.append(lineItem.getDescription());
+            output.append('\t');
+            output.append(lineItem.getPrice());
+            output.append('\t');
+            output.append(lineItem.getQuantity());
+            output.append('\t');
+            output.append(lineItem.totalAmount());
+            output.append('\n');
+        });
     }
 
     private void printCustomerInformation(StringBuilder output) {
