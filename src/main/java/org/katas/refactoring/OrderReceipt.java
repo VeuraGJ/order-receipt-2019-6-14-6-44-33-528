@@ -16,12 +16,7 @@ public class OrderReceipt {
     public String printReceipt() {
         StringBuilder output = new StringBuilder();
         printHeader(output, "======Printing Orders======\n");
-
-        // print date, bill no, customer name
-//        output.append("Date - " + order.getDate();
-        output.append(o.getCustomerName());
-        output.append(o.getCustomerAddress());
-//        output.append(order.getCustomerLoyaltyNumber());
+        printCustomerInformation(output);
 
         // prints lineItems
         double totSalesTx = 0d;
@@ -50,6 +45,14 @@ public class OrderReceipt {
         // print total amount
         output.append("Total Amount").append('\t').append(tot);
         return output.toString();
+    }
+
+    private void printCustomerInformation(StringBuilder output) {
+        // print date, bill no, customer name
+//        output.append("Date - " + order.getDate();
+        output.append(o.getCustomerName());
+        output.append(o.getCustomerAddress());
+//        output.append(order.getCustomerLoyaltyNumber());
     }
 
     private void printHeader(StringBuilder output, String s) {
