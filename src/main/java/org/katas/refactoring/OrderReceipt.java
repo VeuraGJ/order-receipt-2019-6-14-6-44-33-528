@@ -35,8 +35,12 @@ public class OrderReceipt {
         printSaleTax(output, totalSalesTax, "Sales Tax");
 
         // print total amount
-        output.append("Total Amount").append('\t').append(totalAmount);
+        printTotalAmount(output, totalAmount, "Total Amount");
         return output.toString();
+    }
+
+    private void printTotalAmount(StringBuilder output, double totalAmount, String s) {
+        output.append(s).append('\t').append(totalAmount);
     }
 
     private void printSaleTax(StringBuilder output, double totalSalesTax, String s) {
