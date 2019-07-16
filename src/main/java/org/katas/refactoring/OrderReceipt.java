@@ -29,14 +29,14 @@ public class OrderReceipt {
     private double calculateLineItemsSalesTaxRateOf10precent(List<LineItem> lineItems){
         double taxRate = .10;
         return lineItems.stream()
-                .mapToDouble(LineItem::totalAmount)
+                .mapToDouble(LineItem::getTotalAmount)
                 .map(item -> item * taxRate)
                 .sum();
     }
     private double calculateLineItemsTotalAmount(List<LineItem> lineItems){
         double taxRate = .10;
         return lineItems.stream()
-                .mapToDouble(LineItem::totalAmount)
+                .mapToDouble(LineItem::getTotalAmount)
                 .map(item -> item * taxRate + item)
                 .sum();
     }
@@ -56,7 +56,7 @@ public class OrderReceipt {
             output.append('\t');
             output.append(lineItem.getQuantity());
             output.append('\t');
-            output.append(lineItem.totalAmount());
+            output.append(lineItem.getTotalAmount());
             output.append('\n');
         });
     }
