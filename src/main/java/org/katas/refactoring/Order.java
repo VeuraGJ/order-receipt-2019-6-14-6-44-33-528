@@ -5,7 +5,7 @@ import java.util.List;
 public class Order {
     private String customerName;
     private String customerAddress;
-    List<LineItem> lineItems;
+    private List<LineItem> lineItems;
 
     public Order(String customerName, String customerAddress, List<LineItem> lineItems) {
         this.customerName = customerName;

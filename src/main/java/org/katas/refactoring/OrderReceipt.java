@@ -16,29 +16,21 @@ public class OrderReceipt {
     }
 
     public String printReceipt() {
+        final double TAX_RATE = .10;
+        final double TOTAL_SALES_TAX = getLineItemsTotalAmount()*TAX_RATE;
+        final double TOTAL_AMOUNT = getLineItemsTotalAmount() + TOTAL_SALES_TAX;
         StringBuilder output = new StringBuilder();
         printHeader(output, "======Printing Orders======\n");
         printCustomerInformation(output);
         printItems(output, o.getLineItems());
-        double totalSalesTax = calculateLineItemsSalesTaxRateOf10precent(o.getLineItems());
-        double totalAmount = calculateLineItemsTotalAmount(o.getLineItems());
-        printSaleTax(output, totalSalesTax, "Sales Tax");
-        printTotalAmount(output, totalAmount, "Total Amount");
+        printSaleTax(output, TOTAL_SALES_TAX, "Sales Tax");
+        printTotalAmount(output, TOTAL_AMOUNT, "Total Amount");
         return output.toString();
     }
-    private double calculateLineItemsSalesTaxRateOf10precent(List<LineItem> lineItems){
-        double taxRate = .10;
-        return lineItems.stream()
-                .mapToDouble(LineItem::getTotalAmount)
-                .map(item -> item * taxRate)
-                .sum();
-    }
-    private double calculateLineItemsTotalAmount(List<LineItem> lineItems){
-        double taxRate = .10;
-        return lineItems.stream()
-                .mapToDouble(LineItem::getTotalAmount)
-                .map(item -> item * taxRate + item)
-                .sum();
+    public double getLineItemsTotalAmount(){
+        return o.getLineItems()
+                .stream()
+                .mapToDouble(LineItem::getTotalAmount).sum();
     }
     private void printTotalAmount(StringBuilder output, double totalAmount, String s) {
         output.append(s).append('\t').append(totalAmount);
